@@ -1,0 +1,26 @@
+/* 去背景 */
+html body,
+.app,
+.readerContent .app_content {
+  background: transparent !important;
+}
+
+/* 去滚动条 */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* 圆角美化 */
+.navBar_home,
+.navBar {
+  border-radius: 12px;
+}
+
+/* 拖动区域 */
+.navBar_inner {
+  user-select: none;
+  -webkit-app-region: drag;
+}
+.navBar_inner > * {
+  -webkit-app-region: no-drag;
+}

@@ -12,7 +12,7 @@ export default defineConfig({
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'src/preload/index.ts'),
-          "weread.style": resolve(__dirname, 'src/preload/weread.style.ts')
+          weread: resolve(__dirname, 'src/preload/weread.ts')
         }
       }
     }

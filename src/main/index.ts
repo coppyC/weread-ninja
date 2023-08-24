@@ -6,14 +6,15 @@ import icon from '../../resources/icon.png?asset'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 800,
+    height: 600,
     show: false,
     autoHideMenuBar: true,
+    transparent: true,
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      preload: join(__dirname, '../preload/weread.js')
     }
   })
 
@@ -22,16 +23,28 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
+    // 在默认浏览器打开新页面，不在electron 打开
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
+  mainWindow.loadURL("https://weread.qq.com/")
+
+
+  const settingView = new BrowserView({
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+  settingView.setBounds({ x: 0, y: 0, width: 800, height: 600 })
+  settingView.setAutoResize({ width: true, height: true })
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    settingView.webContents.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    settingView.webContents.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
 
@@ -40,7 +53,7 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.weread-ninja')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
