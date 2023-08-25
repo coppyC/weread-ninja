@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, BrowserView } from 'electron'
+import { app, shell, BrowserWindow, BrowserView, ipcMain, globalShortcut, Menu, MenuItem } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -31,21 +31,46 @@ function createWindow(): void {
   mainWindow.loadURL("https://weread.qq.com/")
 
 
-  const settingView = new BrowserView({
+  const helperView = new BrowserView({
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
   })
-  settingView.setBounds({ x: 0, y: 0, width: 800, height: 600 })
-  settingView.setAutoResize({ width: true, height: true })
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
+  optimizer.watchWindowShortcuts(helperView as any)
+  helperView.setAutoResize({ horizontal: true, vertical: true })
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    settingView.webContents.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    helperView.webContents.loadURL(process.env['ELECTRON_RENDERER_URL']) // HMR support!!
   } else {
-    settingView.webContents.loadFile(join(__dirname, '../renderer/index.html'))
+    helperView.webContents.loadFile(join(__dirname, '../renderer/index.html')) // HMR not support
   }
+
+  const menu = new Menu()
+  menu.append(new MenuItem({
+    label: 'F1菜单',
+    submenu: [{
+      role: 'help',
+      accelerator: "F1",
+      click: () => {
+        if (!mainWindow.getBrowserView()) {
+          mainWindow.setBrowserView(helperView)
+          helperView.setBounds({ ...mainWindow.getBounds(), x: 0, y: 0})
+        } else {
+          mainWindow.setBrowserView(null)
+        }
+      }
+    }]
+  }))
+
+  Menu.setApplicationMenu(menu)
+
+  globalShortcut.register('Alt+Z', () => {
+    if (!mainWindow.isVisible()) {
+      mainWindow.show()
+    } else {
+      mainWindow.hide()
+    }
+  })
 }
 
 // This method will be called when Electron has finished
