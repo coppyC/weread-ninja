@@ -1,7 +1,13 @@
 import { app, shell, BrowserWindow, BrowserView, ipcMain, globalShortcut, Menu, MenuItem } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import Store from 'electron-store'
 import icon from '../../resources/icon.png?asset'
+
+interface IConf {
+  PinTop: boolean
+}
+const store = new Store<IConf>();
 
 function createWindow(): void {
   // Create the browser window.
@@ -12,6 +18,8 @@ function createWindow(): void {
     autoHideMenuBar: true,
     transparent: true,
     frame: false,
+    minWidth: 375,
+    minHeight: 100,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/weread.js')
@@ -47,19 +55,16 @@ function createWindow(): void {
 
   const menu = new Menu()
   menu.append(new MenuItem({
-    label: 'F1菜单',
-    submenu: [{
-      role: 'help',
-      accelerator: "F1",
-      click: () => {
-        if (!mainWindow.getBrowserView()) {
-          mainWindow.setBrowserView(helperView)
-          helperView.setBounds({ ...mainWindow.getBounds(), x: 0, y: 0})
-        } else {
-          mainWindow.setBrowserView(null)
-        }
+    label: '秘笈',
+    accelerator: "F1",
+    click() {
+      if (!mainWindow.getBrowserView()) {
+        mainWindow.setBrowserView(helperView)
+        helperView.setBounds({ ...mainWindow.getBounds(), x: 0, y: 0})
+      } else {
+        mainWindow.setBrowserView(null)
       }
-    }]
+    }
   }))
 
   Menu.setApplicationMenu(menu)
@@ -71,6 +76,34 @@ function createWindow(): void {
       mainWindow.hide()
     }
   })
+
+  function updatePinTop() {
+    mainWindow.setAlwaysOnTop(getConf().PinTop)
+  }
+
+  function getConf(): IConf {
+    return {
+      PinTop: store.get("PinTop", false)
+    }
+  }
+  function sendConf() {
+    const conf = getConf()
+    helperView.webContents.send("Conf:update", conf)
+  }
+  function init() {
+    updatePinTop()
+  }
+
+  ipcMain.on("Conf:PinTop", (_, v) => {
+    store.set("PinTop", v)
+    updatePinTop()
+    sendConf()
+  })
+  ipcMain.on("Conf:get", () => {
+    sendConf()
+  })
+
+  init()
 }
 
 // This method will be called when Electron has finished
