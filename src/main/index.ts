@@ -6,14 +6,18 @@ import icon from '../../resources/icon.png?asset'
 
 interface IConf {
   PinTop: boolean
+  RemberSize: boolean
 }
-const store = new Store<IConf>();
+interface IStore extends IConf {
+  Bounds: Electron.Rectangle
+}
+const store = new Store<IStore>();
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: store.get("RemberSize") && store.get("Bounds.width") || 800,
+    height: store.get("RemberSize") && store.get("Bounds.height") || 600,
     show: false,
     autoHideMenuBar: true,
     transparent: true,
@@ -77,13 +81,18 @@ function createWindow(): void {
     }
   })
 
+  mainWindow.on("resized", () => {
+    store.set("Bounds", mainWindow.getBounds())
+  })
+
   function updatePinTop() {
     mainWindow.setAlwaysOnTop(getConf().PinTop)
   }
 
   function getConf(): IConf {
     return {
-      PinTop: store.get("PinTop", false)
+      PinTop: store.get("PinTop", false),
+      RemberSize: store.get("RemberSize", false),
     }
   }
   function sendConf() {
@@ -97,6 +106,10 @@ function createWindow(): void {
   ipcMain.on("Conf:PinTop", (_, v) => {
     store.set("PinTop", v)
     updatePinTop()
+    sendConf()
+  })
+  ipcMain.on("Conf:RemberSize", (_, v) => {
+    store.set("RemberSize", v)
     sendConf()
   })
   ipcMain.on("Conf:get", () => {

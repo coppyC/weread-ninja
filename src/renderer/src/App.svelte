@@ -5,7 +5,8 @@
   const {ipcRenderer} = window.electron
 
   let conf = {
-    PinTop: false
+    PinTop: false,
+    RemberSize: false
   }
   ipcRenderer.on("Conf:update", (_, v) => {
     conf = v
@@ -20,6 +21,9 @@
   <div class="container">
     <ConfItem label="置顶">
       <CheckBox checked={conf.PinTop} on:change={e => ipcRenderer.send("Conf:PinTop", e.detail)} />
+    </ConfItem>
+    <ConfItem label="记住窗口大小">
+      <CheckBox checked={conf.RemberSize} on:change={e => ipcRenderer.send("Conf:RemberSize", e.detail)} />
     </ConfItem>
     <div class="pt-2 border-t-2 border-dashed">
       更多功能还在开发中...<br />
