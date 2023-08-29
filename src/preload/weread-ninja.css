@@ -21,6 +21,7 @@ body::-webkit-scrollbar {
   user-select: none;
   -webkit-app-region: drag;
 }
-.navBar_inner > * {
+.navBar_inner > *,
+.search_banner {
   -webkit-app-region: no-drag;
 }
