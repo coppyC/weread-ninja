@@ -9,9 +9,3 @@ requestAnimationFrame(function ninjaSneakIn() {
   document.head.appendChild(style)
   console.log("%c微读忍者，启动！", "color:#c82330;font-weight:bold")
 })
-
-document.addEventListener('keydown', (ev) => {
-  if (ev.key == 'F1') {
-    ipcRenderer.send('Helper:Toggle')
-  }
-})
