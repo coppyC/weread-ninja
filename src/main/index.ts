@@ -24,7 +24,7 @@ function createWindow(): void {
     frame: false,
     minWidth: 375,
     minHeight: 100,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/weread.js')
     }
