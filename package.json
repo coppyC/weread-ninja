@@ -1,9 +1,9 @@
 {
   "name": "weread-ninja",
-  "version": "1.0.0",
-  "description": "An Electron application with Svelte and TypeScript",
+  "version": "0.0.1",
+  "description": "read a book, like a ninja",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "coppy",
   "homepage": "https://www.electronjs.org",
   "scripts": {
     "format": "prettier --plugin prettier-plugin-svelte --write .",

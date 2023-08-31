@@ -1,5 +1,5 @@
 appId: com.weread-ninja.app
-productName: weread-ninja
+productName: 微读忍者
 directories:
   buildResources: build
 files:

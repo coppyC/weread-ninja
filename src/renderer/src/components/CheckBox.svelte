@@ -20,7 +20,7 @@
   </div>
 </label>
 
-<style>
+<style lang="postcss">
 .CheckBox {
   @apply flex justify-center items-center;
   @apply border-2 border-blue-100;

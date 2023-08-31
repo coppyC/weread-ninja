@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<style>
+<style lang="postcss">
   .app {
     border-radius: 10px;
     background: linear-gradient(165deg, white 0%, #fefefe 75%, #f0f0f0 100%);

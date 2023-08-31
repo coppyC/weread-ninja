@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-import { ipcRenderer } from 'electron'
 import ninjaCSS from './weread-ninja.css?raw'
 
 requestAnimationFrame(function ninjaSneakIn() {
