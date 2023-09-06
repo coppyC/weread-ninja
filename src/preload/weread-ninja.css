@@ -25,3 +25,13 @@ body::-webkit-scrollbar {
 .search_banner {
   -webkit-app-region: no-drag;
 }
+
+/* 特殊适配 */
+@media (max-width: 767px) {
+  .readerCatalog {
+    top: 0;
+  }
+  .readerWriteReviewPanel {
+    max-height: calc(100vh - 90px);
+  }
+}
