@@ -10,10 +10,13 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* 圆角美化 */
+/* 样式美化 */
 .navBar_home,
 .navBar {
   border-radius: 12px;
+}
+.navBar_border {
+  border-width: 0;
 }
 
 /* 拖动区域 */
