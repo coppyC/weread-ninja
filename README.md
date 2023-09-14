@@ -1,6 +1,10 @@
-# weread-ninja
+<div style="text-align:center">
+  <h1>微读忍者</h1>
+  <div>带薪学习，如入无人之境！</div>
+</div>
 
-An Electron application with Svelte and TypeScript
+----------------------------------------------
+
 
 ## Recommended IDE Setup
 
