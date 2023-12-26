@@ -16,8 +16,8 @@ const store = new Store<IStore>();
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: store.get("RemberSize") && store.get("Bounds.width") || 800,
-    height: store.get("RemberSize") && store.get("Bounds.height") || 600,
+    width: store.get("RemberSize") && store.get("Bounds.width") || 750,
+    height: store.get("RemberSize") && store.get("Bounds.height") || 370,
     show: false,
     autoHideMenuBar: true,
     transparent: true,
