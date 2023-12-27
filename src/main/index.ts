@@ -3,11 +3,9 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import Store from 'electron-store'
 import icon from '../../resources/icon.png?asset'
+import { CCMD, IConf, SCMD } from './shared'
 
-interface IConf {
-  PinTop: boolean
-  RemberSize: boolean
-}
+
 interface IStore extends IConf {
   Bounds: Electron.Rectangle
 }
@@ -97,22 +95,22 @@ function createWindow(): void {
   }
   function sendConf() {
     const conf = getConf()
-    helperView.webContents.send("Conf:update", conf)
+    helperView.webContents.send(SCMD.UConf, conf)
   }
   function init() {
     updatePinTop()
   }
 
-  ipcMain.on("Conf:PinTop", (_, v) => {
+  ipcMain.on(CCMD.UPinTop, (_, v) => {
     store.set("PinTop", v)
     updatePinTop()
     sendConf()
   })
-  ipcMain.on("Conf:RemberSize", (_, v) => {
+  ipcMain.on(CCMD.URemberSize, (_, v) => {
     store.set("RemberSize", v)
     sendConf()
   })
-  ipcMain.on("Conf:get", () => {
+  ipcMain.on(CCMD.RConf, () => {
     sendConf()
   })
 
