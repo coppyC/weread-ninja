@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { SCMD, type IConf, CCMD } from '../../main/shared'
+  import { SCMD, CCMD, DefaultConf, type IConf } from '../../main/shared'
   import CheckBox from './components/CheckBox.svelte'
   import ConfItem from './components/ConfItem.svelte'
 
   const {ipcRenderer} = window.electron
 
-  let conf: IConf = {
-    PinTop: false,
-    RemberSize: false
-  }
+  let conf: IConf = DefaultConf
   ipcRenderer.on(SCMD.UConf, (_, v) => {
     conf = v
   })
@@ -25,6 +22,9 @@
     </ConfItem>
     <ConfItem label="记住窗口大小">
       <CheckBox checked={conf.RemberSize} on:change={e => ipcRenderer.send(CCMD.URemberSize, e.detail)} />
+    </ConfItem>
+    <ConfItem label="记住窗口位置">
+      <CheckBox checked={conf.RemberPosition} on:change={e => ipcRenderer.send(CCMD.URemberPosition, e.detail)} />
     </ConfItem>
     <div class="pt-2 border-t-2 border-dashed">
       更多功能还在开发中...<br />

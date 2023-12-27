@@ -1,7 +1,10 @@
-export interface IConf {
-  PinTop: boolean
-  RemberSize: boolean
-}
+export const DefaultConf = Object.seal({
+  PinTop: false,
+  RemberSize: false,
+  RemberPosition: false,
+})
+
+export type IConf = typeof DefaultConf
 
 /**
  * 客户端向 electron 发送的指令集
@@ -11,6 +14,7 @@ export const CCMD = new class {
   RConf
   UPinTop
   URemberSize
+  URemberPosition
 
   constructor() {
     Object.keys(this).forEach(k => this[k] = k)

@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import Store from 'electron-store'
 import icon from '../../resources/icon.png?asset'
-import { CCMD, IConf, SCMD } from './shared'
+import { CCMD, IConf, SCMD, DefaultConf } from './shared'
 
 
 interface IStore extends IConf {
@@ -16,6 +16,8 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: store.get("RemberSize") && store.get("Bounds.width") || 750,
     height: store.get("RemberSize") && store.get("Bounds.height") || 370,
+    x: store.get("RemberPosition") && store.get("Bounds.x") || void 0,
+    y: store.get("RemberPosition") && store.get("Bounds.y") || void 0,
     show: false,
     autoHideMenuBar: true,
     transparent: true,
@@ -80,7 +82,10 @@ function createWindow(): void {
   })
 
   mainWindow.on("resized", () => {
-    store.set("Bounds", mainWindow.getBounds())
+    recordBounds()
+  })
+  mainWindow.on("moved", () => {
+    recordBounds()
   })
 
   function updatePinTop() {
@@ -88,10 +93,11 @@ function createWindow(): void {
   }
 
   function getConf(): IConf {
-    return {
-      PinTop: store.get("PinTop", false),
-      RemberSize: store.get("RemberSize", false),
-    }
+    const conf = {...DefaultConf}
+    Object.keys(conf).forEach(k => {
+      conf[k] = store.get(k, conf[k])
+    })
+    return conf
   }
   function sendConf() {
     const conf = getConf()
@@ -99,6 +105,9 @@ function createWindow(): void {
   }
   function init() {
     updatePinTop()
+  }
+  function recordBounds() {
+    store.set("Bounds", mainWindow.getBounds())
   }
 
   ipcMain.on(CCMD.UPinTop, (_, v) => {
@@ -108,6 +117,12 @@ function createWindow(): void {
   })
   ipcMain.on(CCMD.URemberSize, (_, v) => {
     store.set("RemberSize", v)
+    recordBounds()
+    sendConf()
+  })
+  ipcMain.on(CCMD.URemberPosition, (_, v) => {
+    store.set("RemberPosition", v)
+    recordBounds()
     sendConf()
   })
   ipcMain.on(CCMD.RConf, () => {

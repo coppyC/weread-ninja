@@ -3,7 +3,7 @@
 
   export let checked = false
   interface CustomEvent {
-    change: string
+    change: boolean
   }
   const dispatch = createEventDispatcher<CustomEvent>()
 
