@@ -8,13 +8,14 @@ export type IConf = typeof DefaultConf
 
 /**
  * 客户端向 electron 发送的指令集
- * 前缀 CURD 分别代表 create read update delete
+ * 前缀 CURD 分别代表 create read update delete，X 代表无数据操作的 execute
  */
 export const CCMD = new class {
   RConf
   UPinTop
   URemberSize
   URemberPosition
+  XCloseHelpWindow
 
   constructor() {
     Object.keys(this).forEach(k => this[k] = k)

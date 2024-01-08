@@ -42,6 +42,27 @@ function createWindow(): void {
 
   mainWindow.loadURL("https://weread.qq.com/")
 
+  let keyRecord = ""
+  mainWindow.webContents.on("before-input-event", (_, input) => {
+    if (input.type === "keyUp") return
+
+    if (input.key === ":") {
+      keyRecord = ":"
+    } else if (keyRecord.startsWith(":")) {
+      keyRecord += input.key
+    }
+
+    switch (keyRecord.slice(1)) {
+      case "help":
+      mainWindow.setBrowserView(helperView)
+      helperView.setBounds({ ...mainWindow.getBounds(), x: 0, y: 0})
+      break
+    }
+
+    if (keyRecord.length > 20) keyRecord = ""
+  })
+
+
 
   const helperView = new BrowserView({
     webPreferences: {
@@ -127,6 +148,9 @@ function createWindow(): void {
   })
   ipcMain.on(CCMD.RConf, () => {
     sendConf()
+  })
+  ipcMain.on(CCMD.XCloseHelpWindow, () => {
+    mainWindow.setBrowserView(null)
   })
 
   init()

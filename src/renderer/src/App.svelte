@@ -15,6 +15,7 @@
 <div class="app">
   <div class="header">
     <span class="title">忍者秘籍</span>
+    <button class="close" type="button" on:click={() => ipcRenderer.send(CCMD.XCloseHelpWindow)}>❌</button>
   </div>
   <div class="container">
     <ConfItem label="置顶">
@@ -29,7 +30,9 @@
     <div class="pt-2 border-t-2 border-dashed">
       更多功能还在开发中...<br />
       按 F1 呼出/关闭 本秘籍 <br />
-      按 alt + Z 显示/隐藏 本窗口
+      若快捷键被占用，则输入指令 :help <br />
+      按 alt + Z 显示/隐藏 本窗口 <br />
+      当前版本所有快捷键均不能重新设置，后续版本将推出
     </div>
   </div>
 </div>
@@ -42,13 +45,25 @@
   }
   .header {
     -webkit-app-region: drag;
-    @apply flex justify-around items-center;
+    @apply flex justify-around items-center px-4;
     height: 60px;
     border-radius: 10px;
     background-image: linear-gradient(100deg, #d0edea 0%, #eaf3f2 74%);
   }
   .header .title {
     @apply flex-1 text-2xl text-center;
+  }
+  .header .close {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    @apply block w-8 h-8 rounded-full;
+    background-image: linear-gradient(180deg, #c9e5e2 0%, #d6e1e0 95%);
+  }
+  .header .close {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    @apply block w-10 h-10 rounded-full transition-all hover:rotate-90;
+    background-image: linear-gradient(180deg, #c9e5e2 0%, #d6e1e0 95%);
   }
 
   .container {
