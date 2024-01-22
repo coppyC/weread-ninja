@@ -97,8 +97,10 @@ function createWindow(): void {
   globalShortcut.register('Alt+Z', () => {
     if (!mainWindow.isVisible()) {
       mainWindow.show()
-    } else {
+    } else if (mainWindow.isFocused() || store.get("PinTop", DefaultConf.PinTop)) {
       mainWindow.hide()
+    } else {
+      mainWindow.focus()
     }
   })
 
