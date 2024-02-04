@@ -1,4 +1,5 @@
 <div style="text-align:center">
+  <img src="./build/icon.png" width="128" height="128" />
   <h1>微读忍者</h1>
   <div>带薪学习，如入无人之境！</div>
 </div>
