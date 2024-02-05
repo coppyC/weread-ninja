@@ -154,6 +154,10 @@ function createWindow(): void {
   ipcMain.on(CCMD.XCloseHelpWindow, () => {
     mainWindow.setBrowserView(null)
   })
+  ipcMain.on(CCMD.XRefresh, () => {
+    mainWindow.setBrowserView(null)
+    mainWindow.webContents.reload()
+  })
 
   init()
 }

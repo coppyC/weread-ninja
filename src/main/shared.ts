@@ -11,11 +11,18 @@ export type IConf = typeof DefaultConf
  * 前缀 CURD 分别代表 create read update delete，X 代表无数据操作的 execute
  */
 export const CCMD = new class {
+  /** 读取配置 */
   RConf
+  /** 修改【置顶】 */
   UPinTop
+  /** 修改【记住窗口大小】 */
   URemberSize
+  /** 修改【记住窗口位置】 */
   URemberPosition
+  /** 关闭帮助窗口 */
   XCloseHelpWindow
+  /** 刷新页面 */
+  XRefresh
 
   constructor() {
     Object.keys(this).forEach(k => this[k] = k)
