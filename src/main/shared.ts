@@ -23,6 +23,8 @@ export const CCMD = new class {
   XCloseHelpWindow
   /** 刷新页面 */
   XRefresh
+  /** 返回 */
+  XGoBack
 
   constructor() {
     Object.keys(this).forEach(k => this[k] = k)

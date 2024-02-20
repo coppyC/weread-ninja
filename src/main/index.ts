@@ -158,6 +158,10 @@ function createWindow(): void {
     mainWindow.setBrowserView(null)
     mainWindow.webContents.reload()
   })
+  ipcMain.on(CCMD.XGoBack, () => {
+    mainWindow.setBrowserView(null)
+    mainWindow.webContents.goBack()
+  })
 
   init()
 }

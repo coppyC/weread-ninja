@@ -30,6 +30,9 @@
     <ConfItem label="刷新页面">
       <button hidden on:click={() => ipcRenderer.send(CCMD.XRefresh)}></button>
     </ConfItem>
+    <ConfItem label="返回">
+      <button hidden on:click={() => ipcRenderer.send(CCMD.XGoBack)}></button>
+    </ConfItem>
     <div class="pt-2 border-t-2 border-dashed">
       更多功能还在开发中...<br />
       按 F1 呼出/关闭 本秘籍 <br />
