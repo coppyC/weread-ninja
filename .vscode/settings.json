@@ -1,5 +1,7 @@
 {
   "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "files.insertFinalNewline": true,
   "css.lint.unknownAtRules": "ignore",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
