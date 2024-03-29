@@ -1,8 +1,11 @@
-/* 去背景 */
+/* 隐秘性适配 */
 html body,
 .app,
 .readerContent .app_content {
   background: transparent !important;
+}
+.readerBottomBar {
+  box-shadow: none !important;
 }
 
 /* 去滚动条 */
