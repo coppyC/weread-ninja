@@ -31,6 +31,17 @@ body::-webkit-scrollbar {
 .search_banner {
   -webkit-app-region: no-drag;
 }
+.ninja-DragQuickly {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-app-region: drag;
+}
+body:has(> .ninja-DragQuickly) {
+  opacity: 0.5;
+}
 
 /* 特殊适配 */
 @media (max-width: 767px) {
