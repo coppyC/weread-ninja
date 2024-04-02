@@ -10,7 +10,7 @@ export type IConf = typeof DefaultConf
  * 客户端向 electron 发送的指令集
  * 前缀 CURD 分别代表 create read update delete，X 代表无数据操作的 execute
  */
-export const CCMD = new class {
+export const C2S = new class {
   /** 读取配置 */
   RConf
   /** 修改【置顶】 */
@@ -35,8 +35,8 @@ export const CCMD = new class {
  * electron 向客户端发送的指令集
  * 前缀 CURD 分别代表 create read update delete
  */
-export const SCMD = new class {
-  UConf
+export const S2C = new class {
+  RConf
 
   constructor() {
     Object.keys(this).forEach(k => this[k] = k)

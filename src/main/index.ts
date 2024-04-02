@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import Store from 'electron-store'
 import icon from '../../resources/icon.png?asset'
-import { CCMD, IConf, SCMD, DefaultConf } from './shared'
+import { C2S, IConf, S2C, DefaultConf } from './shared'
 
 
 interface IStore extends IConf {
@@ -124,7 +124,7 @@ function createWindow(): void {
   }
   function sendConf() {
     const conf = getConf()
-    helperView.webContents.send(SCMD.UConf, conf)
+    helperView.webContents.send(S2C.RConf, conf)
   }
   function init() {
     updatePinTop()
@@ -133,32 +133,32 @@ function createWindow(): void {
     store.set("Bounds", mainWindow.getBounds())
   }
 
-  ipcMain.on(CCMD.UPinTop, (_, v) => {
+  ipcMain.on(C2S.UPinTop, (_, v) => {
     store.set("PinTop", v)
     updatePinTop()
     sendConf()
   })
-  ipcMain.on(CCMD.URemberSize, (_, v) => {
+  ipcMain.on(C2S.URemberSize, (_, v) => {
     store.set("RemberSize", v)
     recordBounds()
     sendConf()
   })
-  ipcMain.on(CCMD.URemberPosition, (_, v) => {
+  ipcMain.on(C2S.URemberPosition, (_, v) => {
     store.set("RemberPosition", v)
     recordBounds()
     sendConf()
   })
-  ipcMain.on(CCMD.RConf, () => {
+  ipcMain.on(C2S.RConf, () => {
     sendConf()
   })
-  ipcMain.on(CCMD.XCloseHelpWindow, () => {
+  ipcMain.on(C2S.XCloseHelpWindow, () => {
     mainWindow.setBrowserView(null)
   })
-  ipcMain.on(CCMD.XRefresh, () => {
+  ipcMain.on(C2S.XRefresh, () => {
     mainWindow.setBrowserView(null)
     mainWindow.webContents.reload()
   })
-  ipcMain.on(CCMD.XGoBack, () => {
+  ipcMain.on(C2S.XGoBack, () => {
     mainWindow.setBrowserView(null)
     mainWindow.webContents.goBack()
   })

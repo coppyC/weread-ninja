@@ -1,37 +1,37 @@
 <script lang="ts">
-  import { SCMD, CCMD, DefaultConf, type IConf } from '../../main/shared'
+  import { S2C, C2S, DefaultConf, type IConf } from '../../main/shared'
   import CheckBox from './components/CheckBox.svelte'
   import ConfItem from './components/ConfItem.svelte'
 
   const {ipcRenderer} = window.electron
 
   let conf: IConf = DefaultConf
-  ipcRenderer.on(SCMD.UConf, (_, v) => {
+  ipcRenderer.on(S2C.RConf, (_, v) => {
     conf = v
   })
-  ipcRenderer.send(CCMD.RConf)
+  ipcRenderer.send(C2S.RConf)
 </script>
 
 <div class="app">
   <div class="header">
     <span class="title">忍者秘籍</span>
-    <button class="close" type="button" on:click={() => ipcRenderer.send(CCMD.XCloseHelpWindow)}>❌</button>
+    <button class="close" type="button" on:click={() => ipcRenderer.send(C2S.XCloseHelpWindow)}>❌</button>
   </div>
   <div class="container">
     <ConfItem label="置顶">
-      <CheckBox checked={conf.PinTop} on:change={e => ipcRenderer.send(CCMD.UPinTop, e.detail)} />
+      <CheckBox checked={conf.PinTop} on:change={e => ipcRenderer.send(C2S.UPinTop, e.detail)} />
     </ConfItem>
     <ConfItem label="记住窗口大小">
-      <CheckBox checked={conf.RemberSize} on:change={e => ipcRenderer.send(CCMD.URemberSize, e.detail)} />
+      <CheckBox checked={conf.RemberSize} on:change={e => ipcRenderer.send(C2S.URemberSize, e.detail)} />
     </ConfItem>
     <ConfItem label="记住窗口位置">
-      <CheckBox checked={conf.RemberPosition} on:change={e => ipcRenderer.send(CCMD.URemberPosition, e.detail)} />
+      <CheckBox checked={conf.RemberPosition} on:change={e => ipcRenderer.send(C2S.URemberPosition, e.detail)} />
     </ConfItem>
     <ConfItem label="刷新页面">
-      <button hidden on:click={() => ipcRenderer.send(CCMD.XRefresh)}></button>
+      <button hidden on:click={() => ipcRenderer.send(C2S.XRefresh)}></button>
     </ConfItem>
     <ConfItem label="返回">
-      <button hidden on:click={() => ipcRenderer.send(CCMD.XGoBack)}></button>
+      <button hidden on:click={() => ipcRenderer.send(C2S.XGoBack)}></button>
     </ConfItem>
     <div class="pt-2 border-t-2 border-dashed">
       更多功能还在开发中...<br />
