@@ -1,11 +1,24 @@
 /* 隐秘性适配 */
 html body,
 .app,
-.readerContent .app_content {
+.readerContent .app_content,
+.wr_horizontalReader_app_content,
+.readerChapterContent_container,
+.wr_horizontalReader .readerChapterContent,
+.wr_horizontalReader .wr_mask
+{
   background: transparent !important;
 }
 .readerBottomBar {
   box-shadow: none !important;
+}
+.wr_horizontalReader .wr_horizontalReader_app_content .readerTopBar,
+.readerControls.readerControls {
+  opacity: 0;
+  transition: opacity .2s;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 /* 去滚动条 */
@@ -20,6 +33,10 @@ body::-webkit-scrollbar {
 }
 .navBar_border {
   border-width: 0;
+}
+.wr_horizontalReader .wr_horizontalReader_app_content .readerTopBar {
+  border-radius: 12px;
+  padding: 0 50px;
 }
 
 /* 拖动区域 */
@@ -48,7 +65,23 @@ body:has(> .ninja-DragQuickly) {
   .readerCatalog {
     top: 0;
   }
+  .wr_horizontalReader .readerCatalog {
+    bottom: 0;
+  }
   .readerWriteReviewPanel {
     max-height: calc(100vh - 90px);
   }
+
+  .readerControls.readerControls {
+    display: flex;
+    right: 2px;
+  }
+}
+
+.wr_horizontalReader .readerChapterContent {
+  /* width: 100%; */
+  height: 100%;
+  margin-top: 0;
+  padding: 0;
+  overflow: hidden;
 }
